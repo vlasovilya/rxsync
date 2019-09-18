@@ -14,7 +14,7 @@ Async/waterfall, async/parallel or async/eachLimit is very easy and useful libra
 
 ### Waterfall
 ```javascript
-const rxsync = require('rx-sync');
+const rxsync = require('@ivlasov/rxsync');
 
 rxsync.waterfall([
 	()=>{
@@ -35,7 +35,7 @@ rxsync.waterfall([
 Creates a stream with parallel execution of input streams. Returns an object with results of all streams executions, when the last one is finished
 
 ```javascript
-const rxsync = require('rx-sync');
+const rxsync = require('@ivlasov/rxsync');
 
 rxsync.parallel({
 	one: ()=>{
@@ -63,7 +63,7 @@ rxsync.parallel({
 Creates a stream with parallel execution of array of streams and limitation of simultaneous executions
 
 ```javascript
-const rxsync = require('rx-sync');
+const rxsync = require('@ivlasov/rxsync');
 const array=[1,2,3,4,5,6,7,8,9,10]
 
 //rxsync.eachLimit(streams, limit);

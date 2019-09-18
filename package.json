@@ -1,5 +1,5 @@
 {
-  "name": "rx-sync",
+  "name": "@ivlasov/rxsync",
   "version": "1.0.0",
   "description": "A lightweight library that operates on rxjs to execute a stream chains sequentially or in parallel with defined limit of simultaneous executions.",
   "main": "index.js",
