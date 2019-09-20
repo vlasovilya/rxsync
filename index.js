@@ -1,6 +1,7 @@
 const _=require('lodash');
 const Observable = require('rxjs/Observable').Observable;
 require('rxjs/add/observable/forkJoin');
+require('rxjs/add/operator/mergeMap');
 require('rxjs/add/observable/of');
 require('rxjs/add/operator/map');
 
@@ -32,7 +33,7 @@ const rxsync={
         array.unshift(()=>Observable.of(null));
         let fn=array[0]();
         const addMap=(fn, fn1)=>{
-            return fn.flatMap(fn1);
+            return fn.mergeMap(fn1);
         };
         for (let i=1; i<array.length; i++){
             fn=addMap(fn, res=>{

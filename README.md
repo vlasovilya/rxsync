@@ -8,7 +8,7 @@ Async/waterfall, async/parallel or async/eachLimit is very easy and useful libra
 
 ## Installation
 
-`npm i rx-sync`
+`npm install @ivlasov/rxsync --save`
 
 ## Usage 
 
