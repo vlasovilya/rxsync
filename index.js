@@ -28,7 +28,7 @@ const rxsync={
 
     waterfall:(array)=>{
         if (!array || !array.length){
-            return Observable.of(null); 
+            return Observable.of(null);
         }
         array.unshift(()=>Observable.of(null));
         let fn=array[0]();
@@ -37,7 +37,7 @@ const rxsync={
         };
         for (let i=1; i<array.length; i++){
             fn=addMap(fn, res=>{
-                return array[i](res); 
+                return array[i](res);
             });
         }
 
@@ -56,17 +56,21 @@ const rxsync={
         if (!joinGroups){
             return Observable.of(null);
         }
+        let res=[];
         _.values(joinGroups).forEach(group=>{
             if (!group || !group[0]){
                 return;
             }
             array.push(()=>{
-                return Observable.forkJoin(...group);
+                return Observable.forkJoin(...group).map(items=>{
+                    res=_.union(res, items);
+                    return items;
+                });
             });
         });
         //console.log(joinGroups, streams, limit);
 
-        return rxsync.waterfall(array);
+        return rxsync.waterfall(array).map(()=>res);
     }
 }
 
