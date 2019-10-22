@@ -17,17 +17,17 @@ Async/waterfall, async/parallel or async/eachLimit is very easy and useful libra
 const rxsync = require('@ivlasov/rxsync');
 
 rxsync.waterfall([
-	()=>{
-		return Observable.of(1);
-	},
-	(res)=>{
-		return Observable.of(res+1);
-	},
-	(res)=>{
-		return Observable.of(res+1);
-	}
+    ()=>{
+        return Observable.of(1);
+    },
+    (res)=>{
+        return Observable.of(res+1);
+    },
+    (res)=>{
+        return Observable.of(res+1);
+    }
 ]).subscribe(res=>{
-	console.log(res) //3
+    console.log(res) //3
 });
 ```
 
@@ -38,24 +38,24 @@ Creates a stream with parallel execution of input streams. Returns an object wit
 const rxsync = require('@ivlasov/rxsync');
 
 rxsync.parallel({
-	one: ()=>{
-		return Observable.of(1);
-	},
-	two: ()=>{
-		return Observable.of(2);
-	},	
-	three: ()=>{
-		return Observable.of(3);
-	}
+    one: ()=>{
+        return Observable.of(1);
+    },
+    two: ()=>{
+        return Observable.of(2);
+    },    
+    three: ()=>{
+        return Observable.of(3);
+    }
 }).subscribe(res=>{
-	console.log(res);
-	/*
-		{
-			one: 1,
-			two: 2,
-			three: 3
-		}
-	*/
+    console.log(res);
+    /*
+        {
+            one: 1,
+            two: 2,
+            three: 3
+        }
+    */
 });
 ```
 
@@ -69,8 +69,8 @@ const array=[1,2,3,4,5,6,7,8,9,10]
 //rxsync.eachLimit(streams, limit);
 
 rxsync.eachLimit(array.map(item=>{
-	return Observable.of(item);
+    return Observable.of(item);
 }), 5).subscribe(res=>{
-	console.log(res); //[1,2,3,4,5,6,7,8,9,10]	
+    console.log(res); //[1,2,3,4,5,6,7,8,9,10]    
 });
 ```
