@@ -17,11 +17,12 @@ const rxsync={
         });
 
         return Observable.forkJoin(...functions).map(arr=>{
-            //console.log(arr);
             let obj={};
             _.each(arr, (val, key)=>{
                 obj[keys[key]]=val;
             });
+            functions=null;
+            keys=null;            
             return obj;
         });
     },
@@ -68,9 +69,12 @@ const rxsync={
                 });
             });
         });
-        //console.log(joinGroups, streams, limit);
 
-        return rxsync.waterfall(array).map(()=>res);
+        return rxsync.waterfall(array).map(()=>res).map((result)=>{
+            res=null;
+            array=null;
+            return result;
+        });
     }
 }
 
