@@ -1,9 +1,7 @@
+const {forkJoin, of} = require('rxjs');
+const {map, mergeMap} = require('rxjs/operators');
 const _=require('lodash');
-const Observable = require('rxjs/Observable').Observable;
-require('rxjs/add/observable/forkJoin');
-require('rxjs/add/operator/mergeMap');
-require('rxjs/add/observable/of');
-require('rxjs/add/operator/map');
+const Observable = require('rxjs').Observable;
 
 const rxsync={
     parallel:(object)=>{
@@ -16,7 +14,7 @@ const rxsync={
             }
         });
 
-        return Observable.forkJoin(...functions).map(arr=>{
+        return forkJoin(...functions).pipe(map(arr=>{
             let obj={};
             _.each(arr, (val, key)=>{
                 obj[keys[key]]=val;
@@ -24,17 +22,17 @@ const rxsync={
             functions=null;
             keys=null;            
             return obj;
-        });
+        }));
     },
 
     waterfall:(array)=>{
         if (!array || !array.length){
-            return Observable.of(null);
+            return of(null);
         }
-        array.unshift(()=>Observable.of(null));
+        array.unshift(()=>of(null));
         let fn=array[0]();
         const addMap=(fn, fn1)=>{
-            return fn.mergeMap(fn1);
+            return fn.pipe(mergeMap(fn1));
         };
         for (let i=1; i<array.length; i++){
             fn=addMap(fn, res=>{
@@ -46,7 +44,7 @@ const rxsync={
     },
     eachLimit:(streams, limit)=>{
         if (!streams || !streams.length){
-            return Observable.of(null);
+            return of(null);
         }
         let index=-1;
         const joinGroups=_.groupBy(streams, ()=>{
@@ -55,7 +53,7 @@ const rxsync={
         }) || [];
         let array=[];
         if (!joinGroups){
-            return Observable.of(null);
+            return of(null);
         }
         let res=[];
         _.values(joinGroups).forEach(group=>{
@@ -63,18 +61,18 @@ const rxsync={
                 return;
             }
             array.push(()=>{
-                return Observable.forkJoin(...group).map(items=>{
+                return forkJoin(...group).pipe(map(items=>{
                     res=_.union(res, items);
                     return items;
-                });
+                }));
             });
         });
 
-        return rxsync.waterfall(array).map(()=>res).map((result)=>{
+        return rxsync.waterfall(array).pipe(map(()=>res), map((result)=>{
             res=null;
             array=null;
             return result;
-        });
+        }));
     }
 }
 

@@ -25,6 +25,6 @@
   "homepage": "https://github.com/vlasovilya/rxsync#readme",
   "dependencies": {
     "lodash": "^4.17.15",
-    "rxjs": "^5.5.6"
+    "rxjs": "^6.0.0"
   }
 }
